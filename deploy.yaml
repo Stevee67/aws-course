@@ -6,8 +6,8 @@ Parameters:
     Type: AWS::EC2::KeyPair::KeyName
     Default: sshysh-key-pair
   AmiId:
-    Description: The ID of the AMI to use for the EC2 instance(Def - Ubuntu Server 20.04 LTS 64-bit Arm)
-    Default: ami-0ae8c80279572fa66
+    Description: The ID of the AMI to use for the EC2 instance(Def - Ubuntu Server 20.04 LTS 64-bit x86)
+    Default: ami-0ca5c3bd5a268e7db
     Type: String
   InstanceType:
     Description: The type of the EC2 instance

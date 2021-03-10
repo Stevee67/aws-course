@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Test template(AWS course)
+Parameters:
+  KeyName:
+    Description: The EC2 Key Pair to allow SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: sshysh-key-pair
+  AmiId:
+    Description: The ID of the AMI to use for the EC2 instance(Def - Ubuntu Server 20.04 LTS 64-bit Arm)
+    Default: ami-0ae8c80279572fa66
+    Type: String
+  InstanceType:
+    Description: The type of the EC2 instance
+    Default: t2.micro
+    Type: String
+    AllowedValues:
+      - t2.micro
+Resources:
+  MyEC2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties: 
+      ImageId: !Ref AmiId
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      SecurityGroups:
+        - !Ref SshSecurityGroup
+  SshSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow ssh to client host
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+Outputs:
+  PublicIp:
+    Description: Server Public IP
+    Value: !GetAtt MyEC2Instance.PublicIp
+    Export:
+      Name: !Sub "${AWS::StackName}-PublicIp"

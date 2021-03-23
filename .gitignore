@@ -1,3 +1,6 @@
 /venv
 .idea
 sshysh-key-pair.pem
+.terraform
+.terraform*
+terraform.tfstate*

@@ -1,6 +1,6 @@
 CREATE DATABASE sshysh_test;
 CREATE TABLE Table1 (
-    UserId int NOT NULL AUTO_INCREMENT,
+    UserId SERIAL PRIMARY KEY,
     FirstName varchar(255),
     LastName varchar(255)
 );

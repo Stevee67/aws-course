@@ -16,8 +16,104 @@ variable "KeyName" {
   default     = "sshysh-key-pair"
 }
 
-variable "db_port" {
-  description = "PostgresqlPort"
+variable "AWSRegion" {
+  description = "Aws region"
   type        = string
-  default     = "5432"
+  default     = "us-west-2"
+}
+
+variable "AllocatedStorage" {
+  description = "Postgresql storage capacity"
+  type        = number
+  default     = 20
+}
+
+variable "RdsInstanceType" {
+  description = "The type of the rds instance"
+  type        = string
+  default     = "db.t2.micro"
+}
+
+variable "DbUsername" {
+  description = "Db user name"
+  type        = string
+  default     = "postgres"
+}
+
+variable "DbPassword" {
+  description = "Db password"
+  type        = string
+  default     = "password"
+}
+
+variable "DbEngine" {
+  description = "Db engine"
+  type        = string
+  default     = "postgres"
+}
+
+variable "DbEngineVersion" {
+  description = "Db engine version"
+  type        = string
+  default     = "12.5"
+}
+
+variable "RDSStorageType" {
+  description = "Db storage type"
+  type        = string
+  default     = "gp2"
+}
+
+variable "RDSDbName" {
+  description = "Db storage name"
+  type        = string
+  default     = "sshyshtest"
+}
+
+variable "RDSDbIdentifier" {
+  description = "Db storage identifier"
+  type        = string
+  default     = "sshyshtest"
+}
+
+variable "DynamoDbReadCapacity" {
+  description = "Dynamo db read capacity"
+  type        = number
+  default     = 20
+}
+
+variable "DynamoDbWriteCapacity" {
+  description = "Dynamo db write capacity"
+  type        = number
+  default     = 20
+}
+
+variable "AsgMinSize" {
+  description = "Auto scaling group min size"
+  type        = number
+  default     = 1
+}
+
+variable "AsgMaxSize" {
+  description = "Auto scaling group max size"
+  type        = number
+  default     = 1
+}
+
+variable "AsgDesiredCapacity" {
+  description = "Auto scaling group desired size"
+  type        = number
+  default     = 1
+}
+
+variable "AsgName" {
+  description = "Auto scaling group name"
+  type        = string
+  default     = "testASG"
+}
+
+variable "AZ" {
+  description = "Availability zone"
+  type        = string
+  default     = "us-west-2a"
 }

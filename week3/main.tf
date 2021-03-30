@@ -9,7 +9,7 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "us-west-2"
+  region  = var.AWSRegion
 }
 
 resource "aws_launch_template" "testLaunchTemplate" {
@@ -50,12 +50,12 @@ resource "aws_iam_role" "EC2Role" {
 }
 
 resource "aws_autoscaling_group" "testASG" {
-  name = "testASG"
-  max_size = 1
-  min_size = 1
-  desired_capacity = 1
+  name = var.AsgName
+  max_size = var.AsgMinSize
+  min_size = var.AsgMaxSize
+  desired_capacity = var.AsgDesiredCapacity
   health_check_grace_period = 300
-  availability_zones = ["us-west-2a"]
+  availability_zones = [var.AZ]
   launch_template {
     id      = aws_launch_template.testLaunchTemplate.id
     version = aws_launch_template.testLaunchTemplate.latest_version
@@ -64,8 +64,8 @@ resource "aws_autoscaling_group" "testASG" {
 
 resource "aws_dynamodb_table" "first-dynamodb-table" {
   name = "Table1"
-  read_capacity = 20
-  write_capacity = 20
+  read_capacity = var.DynamoDbReadCapacity
+  write_capacity = var.DynamoDbWriteCapacity
   hash_key = "UserId"
 
   attribute {
@@ -76,20 +76,19 @@ resource "aws_dynamodb_table" "first-dynamodb-table" {
 
 
 resource "aws_db_instance" "sshyshtest" {
-  vpc_security_group_ids = [aws_security_group.PostgresqlGr.id]
-  name                                = "sshyshtest"
-  allocated_storage                   = 100
-  engine                              = "postgres"
-  engine_version                      = "12.5"
-  identifier                          = "sshyshtest"
+  vpc_security_group_ids              = [aws_security_group.PostgresqlGr.id]
+  name                                = var.RDSDbName
+  allocated_storage                   = var.AllocatedStorage
+  engine                              = var.DbEngine
+  engine_version                      = var.DbEngineVersion
+  identifier                          = var.RDSDbIdentifier
   iam_database_authentication_enabled = true
-  storage_type                        = "gp2"
-  instance_class                      = "db.t3.micro"
+  storage_type                        = var.RDSStorageType
+  instance_class                      = var.RdsInstanceType
   skip_final_snapshot                 = true
-  username                            = "postgres"
-  password                            = "password"
-  storage_encrypted                   = true
-  availability_zone                   = "us-west-2a"
+  username                            = var.DbUsername
+  password                            = var.DbPassword
+  availability_zone                   = var.AZ
 }
 
 data "template_file" "user_data" {

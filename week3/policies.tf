@@ -62,7 +62,7 @@ resource "aws_iam_policy" "PostgresPolicy" {
           "Statement": [
               {
                  Action: [
-                     "rds-db:connect"
+                     "rds:*"
                  ],
                   Resource: "*",
                   Effect: "Allow",

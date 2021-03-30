@@ -17,10 +17,9 @@ resource "aws_launch_template" "testLaunchTemplate" {
   image_id = var.AmiId
   instance_type = var.InstanceType
   key_name = var.KeyName
-  security_group_names = [
-    aws_security_group.SshSecurityGroup.name,
-    aws_security_group.HttpSecurityGroup.name,
-    aws_security_group.HttpsSecurityGroup.name
+  vpc_security_group_ids = [
+    aws_security_group.SshSecurityGroup.id,
+    aws_security_group.HttpSecurityGroup.id,
   ]
   iam_instance_profile {arn = aws_iam_instance_profile.InstanceProfile.arn}
   user_data = base64encode(data.template_file.user_data.rendered)
@@ -78,18 +77,19 @@ resource "aws_dynamodb_table" "first-dynamodb-table" {
 
 resource "aws_db_instance" "sshyshtest" {
   vpc_security_group_ids = [aws_security_group.PostgresqlGr.id]
-  name                 = "sshyshtest"
-  allocated_storage    = 100
-  engine               = "postgres"
-  engine_version       = "12.5"
-  identifier           = "sshyshtest"
-  storage_type         = "gp2"
-  instance_class       = "db.t3.micro"
-  skip_final_snapshot  = true
-  username             = "postgres"
-  password             = "password"
-  storage_encrypted    = true
-  availability_zone    = "us-west-2a"
+  name                                = "sshyshtest"
+  allocated_storage                   = 100
+  engine                              = "postgres"
+  engine_version                      = "12.5"
+  identifier                          = "sshyshtest"
+  iam_database_authentication_enabled = true
+  storage_type                        = "gp2"
+  instance_class                      = "db.t3.micro"
+  skip_final_snapshot                 = true
+  username                            = "postgres"
+  password                            = "password"
+  storage_encrypted                   = true
+  availability_zone                   = "us-west-2a"
 }
 
 data "template_file" "user_data" {

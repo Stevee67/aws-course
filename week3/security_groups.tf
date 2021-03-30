@@ -29,17 +29,6 @@ resource "aws_security_group" "HttpSecurityGroup" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  egress {
-    description = "Http outbound access"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-resource "aws_security_group" "HttpsSecurityGroup" {
-  name        = "HttpsSecurityGroup"
-  description = "Allow https inbound/outbound traffic"
 
   ingress {
     description = "Http inbound access"
@@ -48,22 +37,34 @@ resource "aws_security_group" "HttpsSecurityGroup" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   egress {
-    description = "Http outbound access"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 resource "aws_security_group" "PostgresqlGr" {
   name = "PostgresqlGr"
 
+  # SSH access from anywhere
   ingress {
-      description = "RDS inbound access"
-      from_port   = 5432
-      to_port     = 5432
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+    from_port = 5432
+    to_port = 5432
+    protocol = "tcp"
+    security_groups = [
+      aws_security_group.HttpSecurityGroup.id
+    ]
+  }
+  # outbound internet access
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+  }
 }

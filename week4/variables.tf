@@ -4,6 +4,12 @@ variable "AmiId" {
   default     = "ami-0518bb0e75d3619ca"
 }
 
+variable "NatAmiId" {
+  description = "The ID of the AMI to use for the EC2 Nat instance"
+  type        = string
+  default     = "ami-0032ea5ae08aa27a2"
+}
+
 variable "InstanceType" {
   description = "The type of the EC2 instance"
   type        = string
@@ -22,94 +28,28 @@ variable "AWSRegion" {
   default     = "us-west-2"
 }
 
-variable "AllocatedStorage" {
-  description = "Postgresql storage capacity"
+variable "HealthyThreshold" {
+  description = "healthy threshold"
   type        = number
-  default     = 20
+  default     = 2
 }
 
-variable "RdsInstanceType" {
-  description = "The type of the rds instance"
-  type        = string
-  default     = "db.t2.micro"
-}
-
-variable "DbUsername" {
-  description = "Db user name"
-  type        = string
-  default     = "postgres"
-}
-
-variable "DbPassword" {
-  description = "Db password"
-  type        = string
-  default     = "password"
-}
-
-variable "DbEngine" {
-  description = "Db engine"
-  type        = string
-  default     = "postgres"
-}
-
-variable "DbEngineVersion" {
-  description = "Db engine version"
-  type        = string
-  default     = "12.5"
-}
-
-variable "RDSStorageType" {
-  description = "Db storage type"
-  type        = string
-  default     = "gp2"
-}
-
-variable "RDSDbName" {
-  description = "Db storage name"
-  type        = string
-  default     = "sshyshtest"
-}
-
-variable "RDSDbIdentifier" {
-  description = "Db storage identifier"
-  type        = string
-  default     = "sshyshtest"
-}
-
-variable "DynamoDbReadCapacity" {
-  description = "Dynamo db read capacity"
+variable "UnHealthyThreshold" {
+  description = "unhealthy threshold"
   type        = number
-  default     = 20
+  default     = 5
 }
 
-variable "DynamoDbWriteCapacity" {
-  description = "Dynamo db write capacity"
+variable "HealthCheckTimeout" {
+  description = "health check timeout"
   type        = number
-  default     = 20
+  default     = 5
 }
 
-variable "AsgMinSize" {
-  description = "Auto scaling group min size"
+variable "HealthCheckInterval" {
+  description = "health check interval"
   type        = number
-  default     = 1
-}
-
-variable "AsgMaxSize" {
-  description = "Auto scaling group max size"
-  type        = number
-  default     = 1
-}
-
-variable "AsgDesiredCapacity" {
-  description = "Auto scaling group desired size"
-  type        = number
-  default     = 1
-}
-
-variable "AsgName" {
-  description = "Auto scaling group name"
-  type        = string
-  default     = "testASG"
+  default     = 30
 }
 
 variable "AZ" {

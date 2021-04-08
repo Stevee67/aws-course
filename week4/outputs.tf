@@ -20,3 +20,8 @@ output "public_subnets" {
   description = "List of IDs of public subnets"
   value       = aws_subnet.public_subnet
 }
+
+output "elb_host" {
+  description = "Load balancer dns name"
+  value       = aws_lb.testLb.dns_name
+}

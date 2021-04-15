@@ -59,3 +59,7 @@ resource "aws_sqs_queue" "terraform_queue" {
   name                        = "terraform-example-queue"
   visibility_timeout_seconds  = 60
 }
+
+resource "aws_sns_topic" "send_email" {
+  name = "send-email"
+}

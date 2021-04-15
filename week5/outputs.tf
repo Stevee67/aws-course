@@ -8,3 +8,8 @@ output "sqs_queue_url" {
   description = "SQS queue url"
   value       = aws_sqs_queue.terraform_queue.id
 }
+
+output "sns_arn" {
+  description = "SNS arn"
+  value       = aws_sns_topic.send_email.arn
+}

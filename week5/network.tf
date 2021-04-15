@@ -33,17 +33,17 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-//data "aws_vpc_endpoint_service" "sqs" {
-//  service = "sqs"
-//}
-//
-//resource "aws_vpc_endpoint" "sqs" {
-//
-//  vpc_id              = aws_vpc.aws_course_vpc.id
-//  service_name        = data.aws_vpc_endpoint_service.sqs.service_name
-//  vpc_endpoint_type   = "Interface"
-//  private_dns_enabled = true
-//
-//  security_group_ids  = [aws_security_group.SshSecurityGroup.id, aws_security_group.SQSSecurityGroup.id]
-//  subnet_ids          = [aws_subnet.public_subnet.id]
-//}
+data "aws_vpc_endpoint_service" "sqs" {
+  service = "sqs"
+}
+
+resource "aws_vpc_endpoint" "sqs" {
+
+  vpc_id              = aws_vpc.aws_course_vpc.id
+  service_name        = data.aws_vpc_endpoint_service.sqs.service_name
+  vpc_endpoint_type   = "Interface"
+  private_dns_enabled = true
+
+  security_group_ids  = [aws_security_group.SshSecurityGroup.id, aws_security_group.SQSSecurityGroup.id]
+  subnet_ids          = [aws_subnet.public_subnet.id]
+}

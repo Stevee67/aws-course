@@ -41,3 +41,28 @@ module "ec2" {
   HealthCheckInterval = var.HealthCheckInterval
   GatewayId = module.vpc.gateway_id
 }
+
+module "ddb" {
+  source = "./ddb"
+  DynamoDbReadCapacity = var.DynamoDbReadCapacity
+  DynamoDbWriteCapacity = var.DynamoDbWriteCapacity
+  DynamoDbName = var.DynamoDbName
+}
+
+module "rds" {
+  source = "./rds"
+  AllocatedStorage = var.AllocatedStorage
+  RdsInstanceType = var.RdsInstanceType
+  DbUsername = var.DbUsername
+  DbPassword = var.DbPassword
+  DbEngine = var.DbEngine
+  DbEngineVersion = var.DbEngineVersion
+  RDSStorageType = var.RDSStorageType
+  RDSDbName = var.RDSDbName
+  RDSDbIdentifier = var.RDSDbIdentifier
+  privateSecurityGroupId = module.ec2.privateSecurityGroupId
+  AZ = var.AZ1
+  DbSubnet1 = module.vpc.private_subnet_1_id
+  DbSubnet2 = module.vpc.private_subnet_2_id
+  VpcId = module.vpc.vpc_id
+}

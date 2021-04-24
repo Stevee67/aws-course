@@ -85,3 +85,76 @@ variable "HealthCheckInterval" {
   type        = number
   default     = 30
 }
+
+variable "DynamoDbReadCapacity" {
+  description = "Dynamo db read capacity"
+  type        = number
+  default     = 20
+}
+
+variable "DynamoDbName" {
+  description = "Dynamo db name"
+  type        = string
+  default     = "edu-lohika-training-aws-dynamodb"
+}
+
+variable "DynamoDbWriteCapacity" {
+  description = "Dynamo db write capacity"
+  type        = number
+  default     = 20
+}
+
+
+variable "AllocatedStorage" {
+  description = "Postgresql storage capacity"
+  type        = number
+  default     = 20
+}
+
+variable "RdsInstanceType" {
+  description = "The type of the rds instance"
+  type        = string
+  default     = "db.t2.micro"
+}
+
+variable "DbUsername" {
+  description = "Db user name"
+  type        = string
+  default     = "rootuser"
+}
+
+variable "DbPassword" {
+  description = "Db password"
+  type        = string
+  default     = "rootuser"
+}
+
+variable "DbEngine" {
+  description = "Db engine"
+  type        = string
+  default     = "postgres"
+}
+
+variable "DbEngineVersion" {
+  description = "Db engine version"
+  type        = string
+  default     = "12.5"
+}
+
+variable "RDSStorageType" {
+  description = "Db storage type"
+  type        = string
+  default     = "gp2"
+}
+
+variable "RDSDbName" {
+  description = "Db storage name"
+  type        = string
+  default     = "EduLohikaTrainingAwsRds"
+}
+
+variable "RDSDbIdentifier" {
+  description = "Db storage identifier"
+  type        = string
+  default     = "lohikacourse"
+}

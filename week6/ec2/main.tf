@@ -43,10 +43,34 @@ resource "aws_instance" "ec2Private" {
   key_name               = var.KeyName
   subnet_id              = var.Private1SubnetId
   availability_zone      = var.AZ1
-  iam_instance_profile   = aws_iam_instance_profile.InstanceProfile.name
+  iam_instance_profile   = aws_iam_instance_profile.PrivateInstanceProfile.name
   ami                    = var.AmiId
   vpc_security_group_ids = [aws_security_group.PrivateSecurityGroup.id]
   user_data              = base64encode(data.template_file.user_data_private.rendered)
+}
+
+resource "aws_iam_instance_profile" "PrivateInstanceProfile" {
+  path = "/"
+  role = aws_iam_role.PrivateInstanceRole.name
+}
+
+resource "aws_iam_role" "PrivateInstanceRole" {
+  name = "PrivateInstanceRole"
+  assume_role_policy = jsonencode(
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  Action: "sts:AssumeRole",
+                  Principal: {
+                     "Service": "ec2.amazonaws.com"
+                  },
+                  Effect: "Allow",
+              }
+          ]
+      }
+  )
+  path = "/"
 }
 
 resource "aws_instance" "ec2Nat" {

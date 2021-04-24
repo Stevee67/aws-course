@@ -40,6 +40,7 @@ module "ec2" {
   HealthCheckTimeout = var.HealthCheckTimeout
   HealthCheckInterval = var.HealthCheckInterval
   GatewayId = module.vpc.gateway_id
+  RdsHost = module.rds.db_endpoint
 }
 
 module "ddb" {
@@ -47,6 +48,12 @@ module "ddb" {
   DynamoDbReadCapacity = var.DynamoDbReadCapacity
   DynamoDbWriteCapacity = var.DynamoDbWriteCapacity
   DynamoDbName = var.DynamoDbName
+}
+
+module "sns_sqs" {
+  source = "./sns_sqs"
+  SNSTopicName = var.SNSTopicName
+  SQSQueueName = var.SQSQueueName
 }
 
 module "rds" {

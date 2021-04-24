@@ -108,9 +108,10 @@ data "template_file" "user_data" {
 }
 
 data "template_file" "user_data_private" {
-  template                   = file("templates/user_data.tpl")
+  template                   = file("templates/user_data_private.tpl")
   vars = {
     subnet                   = "private"
+    rds_host                 = var.RdsHost
   }
 }
 resource "aws_lb_target_group" "testTargetGroup" {
@@ -123,7 +124,7 @@ resource "aws_lb_target_group" "testTargetGroup" {
     unhealthy_threshold      = var.UnHealthyThreshold
     timeout                  = var.HealthCheckTimeout
     interval                 = var.HealthCheckInterval
-    path                     = "/index.html"
+    path                     = "/health"
   }
 }
 

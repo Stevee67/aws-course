@@ -58,3 +58,6 @@ variable "HealthCheckTimeout" {
 variable "HealthCheckInterval" {
   type        = number
 }
+variable "RdsHost" {
+  type        = string
+}

@@ -78,3 +78,85 @@ resource "aws_iam_role_policy_attachment" "PostgresPolicyAttachment" {
   role = aws_iam_role.PrivateInstanceRole.name
   policy_arn = aws_iam_policy.PostgresPolicy.arn
 }
+
+resource "aws_iam_policy" "SQSPolicy" {
+  name = "SQSPolicy"
+  policy = jsonencode(
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                 Action: [
+                     "sqs:*"
+                 ],
+                 Resource: "*",
+                 Effect: "Allow",
+              }
+          ]
+      }
+  )
+}
+
+resource "aws_iam_policy" "SNSPolicy" {
+  name = "SNSPolicy"
+  policy = jsonencode(
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        Action: [
+          "sns:*"
+        ],
+        Resource: "*",
+        Effect: "Allow",
+      }
+    ]
+  }
+  )
+}
+
+resource "aws_iam_policy" "S3BucketsPolicy" {
+  name = "S3BucketsPolicy"
+  policy = jsonencode(
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  Action: "s3:GetObject",
+                  Resource: "*",
+                  Effect: "Allow",
+              }
+          ]
+      }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "SQSPolicyAttachment" {
+  role = aws_iam_role.InstanceRole.name
+  policy_arn = aws_iam_policy.SQSPolicy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "SQSPolicyAttachmentPrivate" {
+  role = aws_iam_role.PrivateInstanceRole.name
+  policy_arn = aws_iam_policy.SQSPolicy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "SNSPolicyAttachment" {
+  role = aws_iam_role.InstanceRole.name
+  policy_arn = aws_iam_policy.SNSPolicy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "SNSPolicyAttachmentPrivate" {
+  role = aws_iam_role.PrivateInstanceRole.name
+  policy_arn = aws_iam_policy.SNSPolicy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "S3BucketPolicyAttachment" {
+  role = aws_iam_role.InstanceRole.name
+  policy_arn = aws_iam_policy.S3BucketsPolicy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "S3BucketPolicyAttachmentPrivate" {
+  role = aws_iam_role.PrivateInstanceRole.name
+  policy_arn = aws_iam_policy.S3BucketsPolicy.arn
+}

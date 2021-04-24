@@ -98,6 +98,16 @@ variable "DynamoDbName" {
   default     = "edu-lohika-training-aws-dynamodb"
 }
 
+variable "SNSTopicName" {
+  type        = string
+  default     = "edu-lohika-training-aws-sns-topic"
+}
+
+variable "SQSQueueName" {
+  type        = string
+  default     = "edu-lohika-training-aws-sqs-queue"
+}
+
 variable "DynamoDbWriteCapacity" {
   description = "Dynamo db write capacity"
   type        = number

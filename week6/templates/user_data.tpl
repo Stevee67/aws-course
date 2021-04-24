@@ -1,8 +1,6 @@
 #!/bin/bash -xe
 yum update -y
-yum install httpd -y
 yum install -y java-1.8.0-openjdk
-service httpd start
-chkconfig httpd on
-cd /var/www/html
-echo "<html><h1>This is WebServer from ${subnet} subnet</h1></html>" > index.html
+
+aws s3 cp s3://stshysh-course/calc-2021-0.0.2-SNAPSHOT.jar .
+java -jar calc-2021-0.0.2-SNAPSHOT.jar

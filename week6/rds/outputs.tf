@@ -1,6 +1,6 @@
 output "db_endpoint" {
   description = "DB Instance endpoint"
-  value       = aws_db_instance.sshyshtest.endpoint
+  value       = aws_db_instance.sshyshtest.address
 }
 
 output "db_port" {

@@ -75,8 +75,57 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
+resource "aws_route_table" "public" {
+  vpc_id        = aws_vpc.aws_course_vpc.id
+  route {
+    cidr_block  = "0.0.0.0/0"
+    gateway_id  = aws_internet_gateway.gw.id
+  }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id         = aws_vpc.aws_course_vpc.id
+  route {
+    cidr_block   = "0.0.0.0/0"
+    instance_id  = var.ec2NatId
+  }
+}
+
+resource "aws_route_table_association" "public1" {
+  subnet_id      = aws_subnet.public_subnet_1.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public2" {
+  subnet_id      = aws_subnet.public_subnet_2.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "private" {
+  subnet_id      = aws_subnet.private_subnet_1.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private2" {
+  subnet_id      = aws_subnet.private_subnet_2.id
+  route_table_id = aws_route_table.private.id
+}
+
 data "aws_vpc_endpoint_service" "sqs" {
   service = "sqs"
+}
+
+data "aws_vpc_endpoint_service" "dynamodb" {
+  service = "dynamodb"
+}
+
+data "aws_vpc_endpoint_service" "s3" {
+  service = "s3"
+  service_type = "Gateway"
+}
+
+data "aws_vpc_endpoint_service" "sns" {
+  service = "sns"
 }
 
 resource "aws_vpc_endpoint" "sqs" {
@@ -88,4 +137,42 @@ resource "aws_vpc_endpoint" "sqs" {
 
   security_group_ids  = [aws_security_group.SshSecurityGroup.id, aws_security_group.SQSSecurityGroup.id]
   subnet_ids          = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
+}
+
+resource "aws_vpc_endpoint" "sns" {
+
+  vpc_id              = aws_vpc.aws_course_vpc.id
+  service_name        = data.aws_vpc_endpoint_service.sns.service_name
+  vpc_endpoint_type   = "Interface"
+  private_dns_enabled = true
+
+  security_group_ids  = [aws_security_group.SshSecurityGroup.id, aws_security_group.SQSSecurityGroup.id]
+  subnet_ids          = [
+    aws_subnet.private_subnet_1.id,
+    aws_subnet.private_subnet_2.id
+  ]
+}
+
+resource "aws_vpc_endpoint" "dynamodb" {
+
+  vpc_id              = aws_vpc.aws_course_vpc.id
+  service_name        = data.aws_vpc_endpoint_service.dynamodb.service_name
+  vpc_endpoint_type   = "Gateway"
+
+  route_table_ids = [
+    aws_route_table.private.id,
+    aws_route_table.public.id
+  ]
+}
+
+resource "aws_vpc_endpoint" "s3_end" {
+
+  vpc_id              = aws_vpc.aws_course_vpc.id
+  service_name        = data.aws_vpc_endpoint_service.s3.service_name
+  vpc_endpoint_type   = "Gateway"
+
+  route_table_ids = [
+    aws_route_table.private.id,
+    aws_route_table.public.id
+  ]
 }

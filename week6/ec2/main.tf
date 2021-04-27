@@ -124,7 +124,7 @@ resource "aws_lb_target_group" "testTargetGroup" {
     unhealthy_threshold      = var.UnHealthyThreshold
     timeout                  = var.HealthCheckTimeout
     interval                 = var.HealthCheckInterval
-    path                     = "/health"
+    path                     = "/actuator/health"
   }
 }
 

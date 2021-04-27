@@ -7,3 +7,8 @@ output "privateSecurityGroupId" {
   description = "Private security group"
   value       = aws_security_group.PrivateSecurityGroup.id
 }
+
+
+output "ec2NatId" {
+  value       = aws_instance.ec2Nat.id
+}

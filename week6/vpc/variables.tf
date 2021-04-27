@@ -5,3 +5,7 @@ variable "AZ1" {
 variable "AZ2" {
   type        = string
 }
+
+variable "ec2NatId" {
+  type        = string
+}

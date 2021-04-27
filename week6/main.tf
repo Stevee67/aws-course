@@ -16,6 +16,7 @@ module "vpc" {
   source = "./vpc"
   AZ1 = var.AZ1
   AZ2 = var.AZ2
+  ec2NatId = module.ec2.ec2NatId
 }
 
 module "ec2" {
